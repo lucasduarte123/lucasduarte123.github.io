@@ -339,6 +339,61 @@ pre.code{margin:0;background:var(--console);color:var(--console-fg);border-radiu
 
 footer{background:var(--console);color:#7E8B85;font-size:.8rem;border-top:1px solid #ffffff14}
 footer .wrap{padding-block:20px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px}
+
+/* reorganização: navegação, abas, voltar ao topo */
+html{scroll-padding-top:76px}
+section{padding-block:64px}
+.case{background:var(--surface)}
+.alt .case{background:var(--bg)}
+.nav ul a{padding-block:4px;border-bottom:2px solid transparent;white-space:nowrap}
+.nav ul a.on{color:var(--ink);border-bottom-color:var(--accent)}
+@media (max-width:820px){
+  html{scroll-padding-top:112px}
+  .nav .wrap{flex-wrap:wrap;row-gap:8px}
+  .nav ul{display:flex;order:3;flex:1 1 100%;overflow-x:auto;gap:18px;padding-bottom:4px;scrollbar-width:none}
+  .nav ul::-webkit-scrollbar{display:none}
+}
+.tabs{display:inline-flex;gap:4px;padding:4px;background:var(--sunk);border-radius:999px;margin-bottom:26px;max-width:100%;overflow-x:auto}
+.tab{font:600 .92rem/1 var(--f-body);padding:11px 18px;border-radius:999px;border:0;background:transparent;color:var(--muted);cursor:pointer;white-space:nowrap}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.14)}
+.tab small{font-family:var(--f-mono);font-size:.72rem;font-weight:500;margin-left:6px;color:var(--muted)}
+.tab-note{color:var(--muted);font-size:.9rem;max-width:70ch;margin:-8px 0 22px}
+.panel-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;margin:-8px 0 22px}
+.panel-head p{color:var(--muted);font-size:.9rem;max-width:60ch}
+.sub-head{display:flex;align-items:baseline;gap:12px;margin:52px 0 18px;padding-top:36px;border-top:1px solid var(--line)}
+.sub-head h3{font-size:1.5rem}
+.svc-cta{margin-top:18px}
+.to-top{position:fixed;right:calc(18px + env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:30;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:600 1.1rem/1 var(--f-mono);cursor:pointer;box-shadow:0 8px 20px -10px rgba(0,0,0,.4);opacity:0;pointer-events:none;transition:opacity .2s ease}
+.to-top.show{opacity:1;pointer-events:auto}
+
+/* especialidades: filtro QA / E-commerce */
+body:not([data-mode="ecom"]) .console [data-area="ecom"],body[data-mode="qa"] [data-area="ecom"],body[data-mode="ecom"] [data-area="qa"]{display:none!important}
+.mode{display:inline-flex;gap:2px;padding:3px;border-radius:999px;background:var(--sunk);border:1px solid var(--line)}
+.mode button{font:600 .8rem/1 var(--f-body);padding:8px 12px;border-radius:999px;border:0;background:transparent;color:var(--muted);cursor:pointer;white-space:nowrap}
+.mode button:hover{color:var(--ink)}
+.mode button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.nav .right{display:flex;align-items:center;gap:12px}
+.nav li.m-only{display:none}
+@media (max-width:820px){.nav .right .btn{display:none}.nav li.m-only{display:list-item}}
+.picks{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.pick{display:flex;flex-direction:column;gap:14px;text-align:left;padding:26px;border-radius:var(--r);border:2px solid var(--line);background:var(--surface);color:var(--ink);font:inherit;cursor:pointer;transition:border-color .15s ease,transform .15s ease}
+.pick:hover{border-color:var(--accent);transform:translateY(-2px)}
+.pick[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.pick .who{font-size:.92rem;color:var(--muted)}
+.pick h3{font-size:clamp(1.5rem,3vw,1.9rem);font-weight:800;letter-spacing:-.01em}
+.pick ul{margin:0;padding:0;list-style:none;display:grid;gap:8px;font-size:.95rem}
+.pick li{display:grid;grid-template-columns:20px 1fr;gap:8px}
+.pick li::before{content:"✓";font-family:var(--f-mono);font-size:.75rem;color:var(--pass);background:var(--pass-soft);border-radius:5px;width:20px;height:20px;display:grid;place-items:center;margin-top:2px}
+.pick .foot{margin-top:auto;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;padding-top:14px;border-top:1px dashed var(--line)}
+.pick .foot span{font-family:var(--f-mono);font-size:.76rem;color:var(--muted)}
+.pick .foot b{font-weight:600;color:var(--accent);font-size:.92rem}
+.pick-all{margin-top:14px;font-size:.9rem;color:var(--muted)}
+.pick-all button{font:inherit;color:var(--accent);background:none;border:0;padding:0;cursor:pointer;text-decoration:underline}
+@media (max-width:760px){.picks{grid-template-columns:1fr}}
+body[data-mode="ecom"] .gh-grid{grid-template-columns:repeat(3,1fr)}
+body[data-mode="ecom"] .services{grid-template-columns:repeat(3,1fr)}
+@media (max-width:900px){body[data-mode="ecom"] .gh-grid,body[data-mode="ecom"] .services{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -346,14 +401,20 @@ footer .wrap{padding-block:20px;display:flex;flex-wrap:wrap;justify-content:spac
   <div class="wrap">
     <a class="brand" href="#topo"><i aria-hidden="true"></i>Lucas Duarte</a>
     <ul>
-      <li><a href="#cases">Cases</a></li>
-      <li><a href="#github">GitHub</a></li>
-      <li><a href="#servicos">Serviços</a></li>
       <li><a href="#experiencia">Experiência</a></li>
+      <li><a href="#projetos">Projetos</a></li>
       <li><a href="#competencias">Competências</a></li>
-      <li><a href="#formacao">Formação</a></li>
+      <li><a href="#servicos">Serviços</a></li>
+      <li class="m-only"><a href="#contato">Contato</a></li>
     </ul>
-    <a class="btn btn-primary" href="#contato">Contato</a>
+    <div class="right">
+      <div class="mode" role="group" aria-label="Filtrar por especialidade">
+        <button type="button" data-set="all" aria-pressed="true">Tudo</button>
+        <button type="button" data-set="qa" aria-pressed="false">QA</button>
+        <button type="button" data-set="ecom" aria-pressed="false">E-commerce</button>
+      </div>
+      <a class="btn btn-primary" href="#contato">Contato</a>
+    </div>
   </div>
 </nav>
 
@@ -362,10 +423,10 @@ footer .wrap{padding-block:20px;display:flex;flex-wrap:wrap;justify-content:spac
     <div>
       <div class="status"><i aria-hidden="true"></i>Disponível para vagas e projetos freelance</div>
       <h1>Lucas Emanuel<br><span>Duarte Silva</span></h1>
-      <p class="role">Analista de QA · Suporte Técnico N2/N3 · E-commerce</p>
-      <p class="lead">Encontro o defeito antes que ele chegue ao cliente. Automatizo testes de API com Cypress, investigo incidentes em logs e payloads, e conheço e-commerce por dentro: Magento, ERPs, checkout e as regras de negócio que fazem a venda acontecer.</p>
+      <p class="role" data-v-all="Analista de QA · Suporte Técnico N2/N3 · E-commerce" data-v-qa="Analista de QA · Automação de testes · Suporte N2/N3" data-v-ecom="E-commerce · Operação de loja virtual · Integração com ERP">Analista de QA · Suporte Técnico N2/N3 · E-commerce</p>
+      <p class="lead" data-v-all="Encontro o defeito antes que ele chegue ao cliente. Automatizo testes de API com Cypress, investigo incidentes em logs e payloads, e conheço e-commerce por dentro: Magento, ERPs, checkout e as regras de negócio que fazem a venda acontecer." data-v-qa="Encontro o defeito antes que ele chegue ao cliente. Automatizo testes de API REST e GraphQL com Cypress, integro a suíte ao CI/CD e investigo incidentes em logs e payloads até achar a causa raiz." data-v-ecom="Cinco anos operando loja virtual em Magento integrada aos ERPs Tiny e Eccosys: catálogo, preço, estoque, checkout e nota fiscal. Uso GA4 e SEO para melhorar a conversão e testo cada fluxo antes de o cliente encontrar o erro.">Encontro o defeito antes que ele chegue ao cliente. Automatizo testes de API com Cypress, investigo incidentes em logs e payloads, e conheço e-commerce por dentro: Magento, ERPs, checkout e as regras de negócio que fazem a venda acontecer.</p>
       <div class="cta">
-        <a class="btn btn-primary" href="#github">Ver projetos →</a>
+        <a class="btn btn-primary" href="#projetos">Ver projetos →</a>
         <a class="btn btn-ghost" href="https://github.com/lucasduarte123" target="_blank" rel="noopener">GitHub</a>
         <a class="btn btn-ghost" href="https://www.linkedin.com/in/lucas-duarte-59b95b67" target="_blank" rel="noopener">LinkedIn</a>
       </div>
@@ -380,11 +441,16 @@ footer .wrap{padding-block:20px;display:flex;flex-wrap:wrap;justify-content:spac
       <div class="console" role="img" aria-label="Resumo das competências em formato de execução de testes, todos aprovados">
         <header><span>$ npx cypress run --spec lucas.cy.js</span></header>
         <ul>
-          <li><span class="ok">✓</span> automatiza testes de API REST e GraphQL</li>
-          <li><span class="ok">✓</span> valida tokens JWT e regras de acesso</li>
-          <li><span class="ok">✓</span> investiga incidentes em logs e payloads</li>
-          <li><span class="ok">✓</span> integra testes no CI/CD (GitHub Actions)</li>
-          <li><span class="ok">✓</span> fala a língua do negócio e do cliente</li>
+          <li data-area="qa"><span class="ok">✓</span> automatiza testes de API REST e GraphQL</li>
+          <li data-area="qa"><span class="ok">✓</span> valida tokens JWT e regras de acesso</li>
+          <li data-area="qa"><span class="ok">✓</span> investiga incidentes em logs e payloads</li>
+          <li data-area="qa"><span class="ok">✓</span> integra testes no CI/CD (GitHub Actions)</li>
+          <li data-area="qa"><span class="ok">✓</span> fala a língua do negócio e do cliente</li>
+          <li data-area="ecom"><span class="ok">✓</span> sincroniza catálogo, preço e estoque com o ERP</li>
+          <li data-area="ecom"><span class="ok">✓</span> acompanha conversão e funil no GA4</li>
+          <li data-area="ecom"><span class="ok">✓</span> otimiza SEO e velocidade da loja</li>
+          <li data-area="ecom"><span class="ok">✓</span> barra falhas no checkout antes do cliente</li>
+          <li data-area="ecom"><span class="ok">✓</span> automatiza cadastro em massa e preços</li>
         </ul>
         <div class="sum"><span class="ok">5 passing</span> <span class="dim">· 0 failing</span></div>
       </div>
@@ -392,26 +458,90 @@ footer .wrap{padding-block:20px;display:flex;flex-wrap:wrap;justify-content:spac
   </div>
 </header>
 
-<section style="padding-top:24px">
+<section style="padding-top:24px" id="especialidades">
   <div class="wrap">
-    <div class="about">
-      <div><span class="eyebrow">Qualidade</span><h3>Testes que previnem, não só detectam</h3><p>Planos e casos de teste, regressão, edge cases e automação de UI e API, rastreados no Jira com Xray.</p></div>
-      <div><span class="eyebrow">Investigação</span><h3>Da reclamação à causa raiz</h3><p>Leio requisições, respostas e logs para separar erro de uso, configuração ou bug, e entrego o contexto pronto para a engenharia.</p></div>
-      <div><span class="eyebrow">E-commerce</span><h3>Cinco anos operando loja virtual</h3><p>Catálogo, estoque, preço e nota fiscal sincronizados entre Magento e ERPs, com olho em conversão via GA4.</p></div>
+    <div class="picks">
+      <button type="button" class="pick" data-set="qa" data-jump="1" aria-pressed="false">
+        <span class="eyebrow" style="color:var(--accent)">Especialidade 1</span>
+        <h3>QA e testes</h3>
+        <span class="who">Para vagas de QA, testes de software e suporte técnico N2/N3.</span>
+        <ul>
+          <li>Automação de testes de API REST e GraphQL com Cypress e Postman</li>
+          <li>Testes de interface, cross-browser e acessibilidade, rastreados no Jira e Xray</li>
+          <li>Investigação de incidentes em logs e payloads, com o contexto pronto para a engenharia</li>
+        </ul>
+        <span class="foot"><span>Audi · Coca-Cola · 2024–2026</span><b>Ver só QA →</b></span>
+      </button>
+      <button type="button" class="pick" data-set="ecom" data-jump="1" aria-pressed="false">
+        <span class="eyebrow" style="color:var(--accent)">Especialidade 2</span>
+        <h3>E-commerce</h3>
+        <span class="who">Para vagas de e-commerce e lojistas que precisam de ajuda com a loja.</span>
+        <ul>
+          <li>Operação de loja Magento integrada aos ERPs Tiny e Eccosys</li>
+          <li>Conversão com GA4, SEO e melhorias de UX no checkout</li>
+          <li>Automação de catálogo, cadastro em massa e comparação de preços</li>
+        </ul>
+        <span class="foot"><span>Belluce Home'N Light · 2021–2026</span><b>Ver só e-commerce →</b></span>
+      </button>
+    </div>
+    <p class="pick-all" id="pick-all" hidden>Filtrando o site por uma especialidade. <button type="button" data-set="all">Mostrar tudo</button></p>
+  </div>
+</section>
+<section class="alt" id="experiencia">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">Experiência</span><h2>Onde eu trabalhei</h2></div>
+    </div>
+    <div class="timeline">
+      <div class="job" data-area="qa">
+        <span class="when">07/2025 – 07/2026</span>
+        <h3>Analista de QA Front-end</h3>
+        <div class="org">Tortola Consultoria em Tecnologia · cliente Coca-Cola · Remoto</div>
+        <ul>
+          <li>Testes funcionais, exploratórios, de usabilidade e acessibilidade em fluxos críticos.</li>
+          <li>Validação cross-browser e de responsividade, com builds homologados em staging via CI/CD.</li>
+          <li>Triagem de incidentes reportados por usuários e tradução em tickets claros no Jira.</li>
+        </ul>
+      </div>
+      <div class="job" data-area="qa">
+        <span class="when">04/2024 – 07/2025</span>
+        <h3>Analista de QA Backend · Automação de API</h3>
+        <div class="org">Tortola Consultoria em Tecnologia · cliente AUDI · Remoto</div>
+        <ul>
+          <li>Automação de testes de API GraphQL e REST com Cypress, incluindo cenários de segurança com JWT.</li>
+          <li>Gestão de planos e casos de teste no Xray e de defeitos no Jira.</li>
+          <li>Suíte integrada ao CI/CD com GitHub Actions; revisões de código e workflow de Pull Request.</li>
+        </ul>
+      </div>
+      <div class="job" data-area="ecom">
+        <span class="when">06/2021 – 06/2026</span>
+        <h3>Gestor de E-commerce e Operações Digitais</h3>
+        <div class="org">Belluce Home'N Light · Florianópolis/SC</div>
+        <ul>
+          <li>Operação da loja Magento integrada aos ERPs Tiny e Eccosys: catálogo, preço, estoque e notas fiscais.</li>
+          <li>Suporte N1/N2 a clientes sobre produtos, checkout e status de pedidos.</li>
+          <li>Monitoramento de KPIs no GA4, melhorias de UI/UX e SEO, e automação de processos internos.</li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="alt" id="cases">
+<section id="projetos">
   <div class="wrap">
     <div class="sec-head">
-      <div><span class="eyebrow">Projetos e cases</span><h2>Problemas reais, resolvidos</h2></div>
-      <p>Cada case mostra o contexto, o que eu fiz e como verifiquei o resultado. Os trechos de código e tickets são exemplos ilustrativos do meu método; o código dos clientes é confidencial.</p>
+      <div><span class="eyebrow">Projetos</span><h2>Problemas reais, resolvidos</h2></div>
+      <p>Cases do trabalho em empresas e projetos próprios que você pode abrir e testar.</p>
     </div>
+    <div class="tabs" role="tablist" aria-label="Tipo de projeto">
+      <button class="tab" role="tab" id="t-cases" aria-controls="p-cases" aria-selected="true">Cases profissionais<small data-count="p-cases">4</small></button>
+      <button class="tab" role="tab" id="t-gh" aria-controls="p-gh" aria-selected="false" tabindex="-1">Projetos no GitHub<small data-count="p-gh">5</small></button>
+    </div>
+    <div id="p-cases" role="tabpanel" aria-labelledby="t-cases">
+      <p class="tab-note">Cada case mostra o desafio, o que eu fiz e o resultado. Códigos e tickets são exemplos ilustrativos do meu método; o código dos clientes é confidencial.</p>
+      <div class="cases">
 
-    <div class="cases">
-
-      <article class="case">
+      <article class="case" data-area="qa">
         <div class="case-body">
           <div class="case-meta"><span class="pill acc">QA Backend</span><span class="pill">Tortola Consultoria · cliente AUDI</span></div>
           <h3>Automação de testes GraphQL com Cypress</h3>
@@ -453,7 +583,7 @@ footer .wrap{padding-block:20px;display:flex;flex-wrap:wrap;justify-content:spac
         </div>
       </article>
 
-      <article class="case">
+      <article class="case" data-area="both">
         <div class="case-body">
           <div class="case-meta"><span class="pill fail">Bug crítico</span><span class="pill">Belluce Home'N Light · e-commerce</span></div>
           <h3>Produtos "sob consulta" à venda por R$ 0,00</h3>
@@ -483,7 +613,7 @@ footer .wrap{padding-block:20px;display:flex;flex-wrap:wrap;justify-content:spac
         </div>
       </article>
 
-      <article class="case">
+      <article class="case" data-area="ecom">
         <div class="case-body">
           <div class="case-meta"><span class="pill acc">Integração</span><span class="pill">Belluce Home'N Light · 06/2021 – 06/2026</span></div>
           <h3>Loja e ERP falando a mesma língua</h3>
@@ -510,7 +640,7 @@ footer .wrap{padding-block:20px;display:flex;flex-wrap:wrap;justify-content:spac
         </div>
       </article>
 
-      <article class="case">
+      <article class="case" data-area="qa">
         <div class="case-body">
           <div class="case-meta"><span class="pill acc">QA Front-end</span><span class="pill">Tortola Consultoria · cliente Coca-Cola</span></div>
           <h3>Qualidade de interface em escala</h3>
@@ -538,17 +668,10 @@ footer .wrap{padding-block:20px;display:flex;flex-wrap:wrap;justify-content:spac
       </article>
 
     </div>
-  </div>
-</section>
-
-<section id="github">
-  <div class="wrap">
-    <div class="sec-head">
-      <div><span class="eyebrow">Projetos no GitHub</span><h2>O que eu construí e testei</h2></div>
-      <a class="gh-head-link" href="https://github.com/lucasduarte123" target="_blank" rel="noopener">github.com/lucasduarte123 ↗</a>
     </div>
-
-    <article class="feature">
+    <div id="p-gh" role="tabpanel" aria-labelledby="t-gh" hidden>
+      <div class="panel-head"><p>Código aberto, com testes automatizados e CI.</p><a class="gh-head-link" href="https://github.com/lucasduarte123" target="_blank" rel="noopener">github.com/lucasduarte123 ↗</a></div>
+      <article class="feature" data-area="qa">
       <div class="feature-top">
         <div class="feature-info">
           <div class="case-meta" style="margin:0"><span class="pill pass">No ar</span><span class="pill">Node.js · PostgreSQL · PWA</span></div>
@@ -581,7 +704,7 @@ footer .wrap{padding-block:20px;display:flex;flex-wrap:wrap;justify-content:spac
 
     <div class="gh-grid">
 
-      <article class="repo">
+      <article class="repo" data-area="both">
         <div class="repo-visual">
           <div class="run" aria-label="Resultado da execução dos testes de API: 4 requisições, 10 asserções, nenhuma falha">
             <div class="run-head"><span>newman run ecommerce-api-tests</span><span class="pill pass">passou</span></div>
@@ -605,7 +728,7 @@ footer .wrap{padding-block:20px;display:flex;flex-wrap:wrap;justify-content:spac
         </div>
       </article>
 
-      <article class="repo">
+      <article class="repo" data-area="ecom">
         <div class="repo-visual">
           <div class="ll">
             <img class="selo" src="img/ll-selo.webp" alt="Selo da marca Light &amp; Lar" width="54" height="65">
@@ -632,7 +755,7 @@ footer .wrap{padding-block:20px;display:flex;flex-wrap:wrap;justify-content:spac
         </div>
       </article>
 
-      <article class="repo">
+      <article class="repo" data-area="ecom">
         <div class="repo-visual">
           <div class="pipe">
             <div class="st"><b>Planilha</b><small>SKU + preço</small></div><span class="ar">→</span>
@@ -659,7 +782,7 @@ footer .wrap{padding-block:20px;display:flex;flex-wrap:wrap;justify-content:spac
         </div>
       </article>
 
-      <article class="repo">
+      <article class="repo" data-area="qa">
         <div class="repo-visual">
           <div class="api">
             <div class="ep"><i>POST</i>/carteira/upload-csv</div>
@@ -683,84 +806,6 @@ footer .wrap{padding-block:20px;display:flex;flex-wrap:wrap;justify-content:spac
       </article>
 
     </div>
-  </div>
-</section>
-
-<section class="alt" id="servicos">
-  <div class="wrap">
-    <div class="sec-head">
-      <div><span class="eyebrow">Serviços</span><h2>Como posso ajudar seu negócio</h2></div>
-      <p>Atendo empresas e lojistas por projeto, além de vagas CLT ou PJ.</p>
-    </div>
-    <div class="services">
-      <div class="svc">
-        <h3>Testes de site, app ou API</h3>
-        <p>Encontro os erros antes do seu cliente. Você recebe a lista de bugs priorizada, com passo a passo para o desenvolvedor corrigir.</p>
-        <ul class="deliver"><li>Plano de testes e relatório de bugs</li><li>Testes em celular e vários navegadores</li><li>Automação com Cypress ou Playwright</li></ul>
-        <span class="proof">Experiência: projetos para Audi e Coca-Cola</span>
-      </div>
-      <div class="svc">
-        <h3>Loja virtual rápida e encontrável</h3>
-        <p>Criação ou revisão de loja com foco em velocidade, SEO e um checkout que não perde venda.</p>
-        <ul class="deliver"><li>Auditoria de velocidade e SEO</li><li>Ajustes em Magento ou loja nova em Next.js</li><li>Configuração do Google Analytics 4</li></ul>
-        <span class="proof">Experiência: 5 anos em e-commerce · Light &amp; Lar</span>
-      </div>
-      <div class="svc">
-        <h3>Automação de planilhas e catálogo</h3>
-        <p>Robôs que fazem o trabalho repetitivo: cadastro em massa, comparação de preços, importação para ERP.</p>
-        <ul class="deliver"><li>Scripts em Python ou VBA</li><li>Integração loja ↔ ERP (Tiny, Eccosys)</li><li>Ferramenta pronta para a equipe usar</li></ul>
-        <span class="proof">Exemplo: Radar de Preços</span>
-      </div>
-      <div class="svc">
-        <h3>Sistemas sob medida para grupos</h3>
-        <p>Sites com login, painel de administração e regras do seu jeito, publicados sem custo mensal de servidor.</p>
-        <ul class="deliver"><li>Site + app instalável no celular</li><li>Painel admin e importação de dados</li><li>Hospedagem gratuita quando possível</li></ul>
-        <span class="proof">Exemplo: Bolão Campeão</span>
-      </div>
-    </div>
-    <div class="svc-cta">
-      <p>Tem um projeto em mente? Conte o que precisa e eu respondo com uma proposta.</p>
-      <a class="btn btn-primary" href="https://wa.me/5548996820876?text=Ol%C3%A1%20Lucas%2C%20vi%20seu%20portf%C3%B3lio%20e%20quero%20um%20or%C3%A7amento." target="_blank" rel="noopener">Pedir orçamento no WhatsApp</a>
-    </div>
-  </div>
-</section>
-
-<section id="experiencia">
-  <div class="wrap">
-    <div class="sec-head">
-      <div><span class="eyebrow">Experiência</span><h2>Onde eu trabalhei</h2></div>
-    </div>
-    <div class="timeline">
-      <div class="job">
-        <span class="when">07/2025 – 07/2026</span>
-        <h3>Analista de QA Front-end</h3>
-        <div class="org">Tortola Consultoria em Tecnologia · cliente Coca-Cola · Remoto</div>
-        <ul>
-          <li>Testes funcionais, exploratórios, de usabilidade e acessibilidade em fluxos críticos.</li>
-          <li>Validação cross-browser e de responsividade, com builds homologados em staging via CI/CD.</li>
-          <li>Triagem de incidentes reportados por usuários e tradução em tickets claros no Jira.</li>
-        </ul>
-      </div>
-      <div class="job">
-        <span class="when">04/2024 – 07/2025</span>
-        <h3>Analista de QA Backend · Automação de API</h3>
-        <div class="org">Tortola Consultoria em Tecnologia · cliente AUDI · Remoto</div>
-        <ul>
-          <li>Automação de testes de API GraphQL e REST com Cypress, incluindo cenários de segurança com JWT.</li>
-          <li>Gestão de planos e casos de teste no Xray e de defeitos no Jira.</li>
-          <li>Suíte integrada ao CI/CD com GitHub Actions; revisões de código e workflow de Pull Request.</li>
-        </ul>
-      </div>
-      <div class="job">
-        <span class="when">06/2021 – 06/2026</span>
-        <h3>Gestor de E-commerce e Operações Digitais</h3>
-        <div class="org">Belluce Home'N Light · Florianópolis/SC</div>
-        <ul>
-          <li>Operação da loja Magento integrada aos ERPs Tiny e Eccosys: catálogo, preço, estoque e notas fiscais.</li>
-          <li>Suporte N1/N2 a clientes sobre produtos, checkout e status de pedidos.</li>
-          <li>Monitoramento de KPIs no GA4, melhorias de UI/UX e SEO, e automação de processos internos.</li>
-        </ul>
-      </div>
     </div>
   </div>
 </section>
@@ -768,25 +813,20 @@ footer .wrap{padding-block:20px;display:flex;flex-wrap:wrap;justify-content:spac
 <section class="alt" id="competencias">
   <div class="wrap">
     <div class="sec-head">
-      <div><span class="eyebrow">Competências</span><h2>Ferramentas do dia a dia</h2></div>
+      <div><span class="eyebrow">Competências e formação</span><h2>Ferramentas e estudo</h2></div>
     </div>
     <div class="skills">
-      <div class="skill"><h3>Testes e qualidade</h3><ul><li class="core">Testes funcionais</li><li class="core">Regressão</li><li>Exploratórios</li><li>Edge cases</li><li>BDD / Gherkin</li><li>Planos e casos de teste</li><li>Gestão de defeitos</li></ul></div>
-      <div class="skill"><h3>Automação</h3><ul><li class="core">Cypress</li><li>Playwright</li><li>Automação de API</li><li>Newman</li><li>Automação de UI</li><li class="core">GitHub Actions</li><li>CI/CD</li></ul></div>
-      <div class="skill"><h3>APIs e backend</h3><ul><li class="core">GraphQL</li><li class="core">REST</li><li>Postman</li><li>Insomnia</li><li>JSON</li><li>JWT</li><li>SQL</li><li>Logs Linux</li></ul></div>
+      <div class="skill" data-area="qa"><h3>Testes e qualidade</h3><ul><li class="core">Testes funcionais</li><li class="core">Regressão</li><li>Exploratórios</li><li>Edge cases</li><li>BDD / Gherkin</li><li>Planos e casos de teste</li><li>Gestão de defeitos</li></ul></div>
+      <div class="skill" data-area="qa"><h3>Automação de testes</h3><ul><li class="core">Cypress</li><li>Playwright</li><li>Automação de API</li><li>Newman</li><li>Automação de UI</li><li class="core">GitHub Actions</li><li>CI/CD</li></ul></div>
+      <div class="skill" data-area="qa"><h3>APIs e backend</h3><ul><li class="core">GraphQL</li><li class="core">REST</li><li>Postman</li><li>Insomnia</li><li>JSON</li><li>JWT</li><li>SQL</li><li>Logs Linux</li></ul></div>
+      <div class="skill" data-area="ecom"><h3>Loja e operação</h3><ul><li class="core">Magento</li><li class="core">Tiny</li><li>Eccosys</li><li>Checkout</li><li>Catálogo e estoque</li><li>Nota fiscal</li></ul></div>
+      <div class="skill" data-area="ecom"><h3>Marketing e dados</h3><ul><li class="core">GA4</li><li class="core">SEO</li><li>KPIs</li><li>Conversão</li><li>Google Shopping</li><li>Lighthouse</li></ul></div>
+      <div class="skill" data-area="ecom"><h3>Automação da operação</h3><ul><li class="core">Python</li><li>Selenium</li><li>VBA</li><li>Planilhas</li><li>Importação para ERP</li></ul></div>
       <div class="skill"><h3>Front-end e UX</h3><ul><li>JavaScript</li><li>HTML5</li><li>CSS3</li><li class="core">Acessibilidade</li><li>Cross-browser</li><li>Responsividade</li><li>Usabilidade</li></ul></div>
-      <div class="skill"><h3>E-commerce</h3><ul><li class="core">Magento</li><li>Tiny</li><li>Eccosys</li><li>Checkout</li><li>GA4</li><li>SEO</li><li>KPIs</li></ul></div>
       <div class="skill"><h3>Processo e suporte</h3><ul><li class="core">Jira</li><li class="core">Xray</li><li>Git</li><li>Scrum</li><li>Kanban</li><li>Suporte N2/N3</li><li>Documentação técnica</li></ul></div>
     </div>
     <p class="legend"><i aria-hidden="true"></i>Destaque = ferramentas que mais usei em projetos.</p>
-  </div>
-</section>
-
-<section id="formacao">
-  <div class="wrap">
-    <div class="sec-head">
-      <div><span class="eyebrow">Formação</span><h2>Estudo e certificações</h2></div>
-    </div>
+    <div class="sub-head" id="formacao"><h3>Formação e certificações</h3></div>
     <div class="edu">
       <div>
         <span class="eyebrow">Acadêmica</span>
@@ -803,12 +843,51 @@ footer .wrap{padding-block:20px;display:flex;flex-wrap:wrap;justify-content:spac
       <div>
         <span class="eyebrow">Certificações</span>
         <div class="list" style="margin-top:12px">
-          <div class="item"><div><b>Google Analytics</b><small>Google Skillshop · válida até 09/2027</small></div><span class="yr">09/2026</span></div>
-          <div class="item"><div><b>Quality Assurance</b><small>Alura</small></div><span class="yr">03/2025</span></div>
-          <div class="item"><div><b>SEO: Plataformas CMS</b><small>Alura · E-commerce SEO</small></div><span class="yr">01/2025</span></div>
-          <div class="item"><div><b>VBA</b><small>Alura</small></div><span class="yr">01/2025</span></div>
+          <div class="item" data-area="ecom"><div><b>Google Analytics</b><small>Google Skillshop · válida até 09/2027</small></div><span class="yr">09/2026</span></div>
+          <div class="item" data-area="qa"><div><b>Quality Assurance</b><small>Alura</small></div><span class="yr">03/2025</span></div>
+          <div class="item" data-area="ecom"><div><b>SEO: Plataformas CMS</b><small>Alura · E-commerce SEO</small></div><span class="yr">01/2025</span></div>
+          <div class="item" data-area="ecom"><div><b>VBA</b><small>Alura</small></div><span class="yr">01/2025</span></div>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<section id="servicos">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">Serviços</span><h2>Como posso ajudar seu negócio</h2></div>
+      <p>Atendo empresas e lojistas por projeto, além de vagas CLT ou PJ.</p>
+    </div>
+    <div class="services">
+      <div class="svc" data-area="qa">
+        <h3>Testes de site, app ou API</h3>
+        <p>Encontro os erros antes do seu cliente. Você recebe a lista de bugs priorizada, com passo a passo para o desenvolvedor corrigir.</p>
+        <ul class="deliver"><li>Plano de testes e relatório de bugs</li><li>Testes em celular e vários navegadores</li><li>Automação com Cypress ou Playwright</li></ul>
+        <span class="proof">Experiência: projetos para Audi e Coca-Cola</span>
+      </div>
+      <div class="svc" data-area="ecom">
+        <h3>Loja virtual rápida e encontrável</h3>
+        <p>Criação ou revisão de loja com foco em velocidade, SEO e um checkout que não perde venda.</p>
+        <ul class="deliver"><li>Auditoria de velocidade e SEO</li><li>Ajustes em Magento ou loja nova em Next.js</li><li>Configuração do Google Analytics 4</li></ul>
+        <span class="proof">Experiência: 5 anos em e-commerce · Light &amp; Lar</span>
+      </div>
+      <div class="svc" data-area="ecom">
+        <h3>Automação de planilhas e catálogo</h3>
+        <p>Robôs que fazem o trabalho repetitivo: cadastro em massa, comparação de preços, importação para ERP.</p>
+        <ul class="deliver"><li>Scripts em Python ou VBA</li><li>Integração loja ↔ ERP (Tiny, Eccosys)</li><li>Ferramenta pronta para a equipe usar</li></ul>
+        <span class="proof">Exemplo: Radar de Preços</span>
+      </div>
+      <div class="svc" data-area="both">
+        <h3>Sistemas sob medida para grupos</h3>
+        <p>Sites com login, painel de administração e regras do seu jeito, publicados sem custo mensal de servidor.</p>
+        <ul class="deliver"><li>Site + app instalável no celular</li><li>Painel admin e importação de dados</li><li>Hospedagem gratuita quando possível</li></ul>
+        <span class="proof">Exemplo: Bolão Campeão</span>
+      </div>
+    </div>
+    <div class="svc-cta">
+      <p>Tem um projeto em mente? Conte o que precisa e eu respondo com uma proposta.</p>
+      <a class="btn btn-primary" href="https://wa.me/5548996820876?text=Ol%C3%A1%20Lucas%2C%20vi%20seu%20portf%C3%B3lio%20e%20quero%20um%20or%C3%A7amento." target="_blank" rel="noopener">Pedir orçamento no WhatsApp</a>
     </div>
   </div>
 </section>
@@ -830,6 +909,52 @@ footer .wrap{padding-block:20px;display:flex;flex-wrap:wrap;justify-content:spac
 </section>
 <footer><div class="wrap"><span>Lucas Emanuel Duarte Silva · Florianópolis, SC</span><span class="mono">0 failing</span></div></footer>
 
+<script>
+(function(){
+  var b=document.body, modes=['all','qa','ecom'];
+  function setMode(m,jump){
+    if(modes.indexOf(m)<0)m='all';
+    if(m==='all')b.removeAttribute('data-mode');else b.setAttribute('data-mode',m);
+    document.querySelectorAll('[data-set]').forEach(function(x){if(x.hasAttribute('aria-pressed'))x.setAttribute('aria-pressed',String(x.getAttribute('data-set')===m));});
+    document.querySelectorAll('[data-v-all]').forEach(function(el){el.textContent=el.getAttribute('data-v-'+m);});
+    document.getElementById('pick-all').hidden=(m==='all');
+    document.querySelectorAll('[data-count]').forEach(function(c){
+      var p=document.getElementById(c.getAttribute('data-count'));
+      var n=[].filter.call(p.querySelectorAll('article.case,article.repo,article.feature'),function(a){var t=a.getAttribute('data-area');return m==='all'||t==='both'||t===m;}).length;
+      c.textContent=n;
+    });
+    try{history.replaceState(null,'',m==='all'?location.pathname+location.search:'#'+(m==='ecom'?'ecommerce':'qa'));}catch(e){}
+    try{localStorage.setItem('modo',m);}catch(e){}
+    if(jump){var t=document.getElementById('experiencia');if(t)t.scrollIntoView({behavior:'smooth'});}
+  }
+  document.addEventListener('click',function(e){var x=e.target.closest('[data-set]');if(x)setMode(x.getAttribute('data-set'),!!x.getAttribute('data-jump'));});
+  var h=location.hash.slice(1), start='all';
+  if(h==='qa')start='qa';else if(h==='ecommerce')start='ecom';
+  setMode(start,false);
+})();
+</script>
+<button class="to-top" id="to-top" type="button" aria-label="Voltar ao topo">↑</button>
+<script>
+(function(){
+  var tabs=[].slice.call(document.querySelectorAll('.tab'));
+  function pick(t){tabs.forEach(function(x){var on=x===t;x.setAttribute('aria-selected',on);x.tabIndex=on?0:-1;document.getElementById(x.getAttribute('aria-controls')).hidden=!on;});}
+  tabs.forEach(function(t,i){
+    t.addEventListener('click',function(){pick(t);});
+    t.addEventListener('keydown',function(e){if(e.key==='ArrowRight'||e.key==='ArrowLeft'){var n=tabs[(i+(e.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length];pick(n);n.focus();}});
+  });
+  var links=[].slice.call(document.querySelectorAll('.nav ul a'));
+  var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'));});
+  var top=document.getElementById('to-top');
+  function onScroll(){
+    var y=window.scrollY+140, cur=-1;
+    secs.forEach(function(s,i){if(s&&s.offsetTop<=y)cur=i;});
+    links.forEach(function(a,i){a.classList.toggle('on',i===cur);});
+    top.classList.toggle('show',window.scrollY>700);
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  top.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
+})();
+</script>
 <script>
 document.querySelectorAll('[data-copy]').forEach(function(btn){
   btn.addEventListener('click', function(){
